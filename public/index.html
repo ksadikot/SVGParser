@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SVG Image Viewer</title>
+    <meta charset="utf-8">
+    <style>
+        .img-container {
+            text-align: center;
+            display: block;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="SVG image tool">
+    <meta name="keywords" content="CHANGE ME">
+    <meta name="author" content="Kaid Sadikot">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+    <hr>
+    <h3>SVG Image Viewer</h3>
+    <hr>
+    <!--
+    If the A3 stub is running and simple.gpx exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
+    <a href="rects.svg">rects.svg</a>
+    
+    <img src="rects.svg">
+    -->
+
+    <div id="logLabel" style= "visibility: hidden">
+        <label>THERE ARE NO FILES ON SERVER</label>
+    </div>
+    <div style="width:850px;height:500px;overflow:auto;">
+        <table id= "logTable" class= "table table-bordered" >
+            <thead>
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">File Name</th>
+                    <th scope="col">File Size</th>
+                    <th scope="col">Number of recangles</th>
+                    <th scope="col">Number of circles</th>
+                    <th scope="col">Number of paths</th>
+                    <th scope="col">Number of groups</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
+            <input type="file" name="uploadFile" id="fileUpload" accept=".svg"></input>
+            <input type="submit"></input>
+        </form>
+    </div>
+
+    <hr>
+
+    <label for= "SVGfiles">Select a SVG file</label>
+    <select id="SVGfiles">
+        <option selected="selected"></option>
+    </select>
+
+    <div class="img-container">
+        <img id="svgImg" src="">
+    </div>
+
+   
+
+    <table id= "tANDd" class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="title"></td>
+                <td id="desc"></td>
+            
+            </tr>
+        </tbody>
+    </table>
+    <table id="compTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Component</th>
+                <th scope="col">Summary</th>
+                <th scope="col">Other Attributes</th>
+            </tr>
+        </thead>
+        <tbody id="compBody">
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createSVGModal">Create SVG File</button>
+
+    <div id="createSVGModal" class="modal fade">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Enter File Name</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="svgFileName" value="" name="svgFileName">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="enter" data-dismiss="modal">Enter</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editTitle" class="modal fade">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Enter New Title</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="newTitle" value="" name="editedTitle">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="titleEnter" data-dismiss="modal">Enter</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="editDesc" class="modal fade">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Enter New Description</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="newDesc" value="" name="newDesc">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="descEnter" data-dismiss="modal">Enter</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <!-- Leave me at the bottom of body -->
+    <script src="/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
