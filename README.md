@@ -1,4 +1,4 @@
-**SVG Parser Application (C)**
+**SVG Parser Application (C)**  
 Welcome to the SVG Parser Application! This C-based application is designed to parse Scalable Vector Graphics (SVG) files and extract relevant information for further processing or rendering.
 
 **Features**
